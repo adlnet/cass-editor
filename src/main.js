@@ -72,6 +72,7 @@ global.base64 = require('base64-arraybuffer');
 global.UUID = require('pure-uuid');
 
 Vue.config.productionTip = false;
+Vue.config.ignoredElements = ['field', 'block', 'category', 'xml', 'mutation', 'value', 'sep'];
 // Vue.config.silent = true;
 Vue.config.warnHandler = function(msg, vm, trace) {
     if (msg === 'Invalid prop: type check failed for prop "clickToLoad". Expected Boolean, got String with value "true".') return;

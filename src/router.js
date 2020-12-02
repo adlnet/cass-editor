@@ -25,6 +25,15 @@ export default new Router({
             alias: '/cass-editor/'
         },
         {
+            path: '/x/scratch',
+            name: 'scratch',
+            components: {
+                default: () => import('./views/experimental/Scratch.vue'),
+                sidebar: () => import('./components/SideNav.vue'),
+                topbar: () => import('./components/Topbar.vue')
+            }
+        },
+        {
             path: '/frameworks',
             name: 'frameworks',
             components: {
