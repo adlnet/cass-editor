@@ -1,42 +1,28 @@
 <template>
     <div id="container">
+        <h1>Answering a question given data, frameworks, and (the rules written here) Editor</h1>
         <BlocklyComponent
             id="blockly"
             ref="foo">
-            <block type="controls_ifelse" />
-            <block type="logic_compare" />
-            <block type="logic_operation" />
-            <block type="controls_repeat_ext">
-                <value name="TIMES">
-                    <shadow type="math_number">
-                        <field name="NUM">
-                            10
-                        </field>
-                    </shadow>
-                </value>
-            </block>
+            <block type="true_if" />
+            <block type="has_true_assertion" />
+            <block type="has_true_assertion_within" />
+            <block type="has_false_assertion" />
             <block type="logic_operation" />
             <block type="logic_negate" />
-            <block type="logic_boolean" />
-            <block type="true_if" />
-            <block type="text" />
             <block type="https://dev.api.cassproject.org/api/data/schema.cassproject.org.0.4.Competency/0217f483-974b-4013-8196-68c07aa1ef9c" />
             <block type="https://dev.api.cassproject.org/api/data/schema.cassproject.org.0.4.Competency/22abc12d-c740-4ef6-9c7a-4e9d7720dada" />
-            <block
-                type="logic_null"
-                disabled="true" />
-            <block type="logic_ternary" />
-            <block type="has_true_assertion" />
-            <block type="text_charAt">
-                <value name="VALUE">
-                    <block type="variables_get">
-                        <field name="VAR">
-                            text
-                        </field>
-                    </block>
-                </value>
-            </block>
         </BlocklyComponent>
+        <h1>How do we know when to make an assertion given data that comes in Editor</h1>
+        <BlocklyComponent
+            id="blockly2"
+            ref="foo2">
+            <block type="assertion_if" />
+            <block type="xapi" />
+            <block type="xapi_verb" />
+            <block type="xapi_object" />
+        </BlocklyComponent>
+
 
         <button @click="showCode()">
             Show JavaScript
@@ -60,22 +46,86 @@ Blockly.Blocks["true_if"] = {
         this.setPreviousStatement(false);
         this.setNextStatement(false);
         this.setColour(190);
-        this.setTooltip("buy id");
-        this.setHelpUrl("https://example.com");
     }
 };
 
+Blockly.Blocks["assertion_if"] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("Generate a ").appendField(new Blockly.FieldDropdown([["positive", "TRUE"], ["negative", "FALSE"]]), "Positive");
+        this.appendValueInput("Boolean")
+            .setCheck("Boolean")
+            .appendField("assertion if");
+        this.setOutput(false);
+        this.setPreviousStatement(false);
+        this.setNextStatement(false);
+        this.setColour(190);
+    }
+};
+
+Blockly.Blocks["xapi"] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("We receive an xAPI statement where");
+        this.setOutput(true, "Boolean");
+        this.setPreviousStatement(false);
+        this.setNextStatement(true, "Boolean");
+        this.setColour(190);
+    }
+};
+Blockly.Blocks["xapi_verb"] = {
+    init: function() {
+        this.appendValueInput("Verb")
+            .setCheck("Verb")
+            .appendField("the verb is");
+        this.setPreviousStatement(true, "Boolean");
+        this.setNextStatement(true, "Boolean");
+        this.setColour(190);
+    }
+};
+Blockly.Blocks["xapi_object"] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("the object.id is ").appendField(new Blockly.FieldTextInput(""), "Object");
+        this.setPreviousStatement(true, "Boolean");
+        this.setNextStatement(true, "Boolean");
+        this.setColour(190);
+    }
+};
 Blockly.Blocks["has_true_assertion"] = {
     init: function() {
         this.appendValueInput("Competency")
             .setCheck("Competency")
-            .appendField("There is a positive assertion on competency:");
+            .appendField("There is a positive assertion on");
         this.setOutput(true);
         this.setPreviousStatement(false);
         this.setNextStatement(false);
         this.setColour(190);
-        this.setTooltip("buy id");
-        this.setHelpUrl("https://example.com");
+    }
+};
+Blockly.Blocks["has_true_assertion_within"] = {
+    init: function() {
+        this.appendValueInput("Competency")
+            .setCheck("Competency")
+            .appendField("There is a positive assertion on");
+        this.appendValueInput("Competency")
+            .setCheck("Competency")
+            .appendField("within").appendField(new Blockly.FieldNumber(0), "Number").appendField(" seconds of ");
+        this.setOutput(true);
+        this.setPreviousStatement(false);
+        this.setNextStatement(false);
+        this.setColour(190);
+    }
+};
+Blockly.Blocks["has_false_assertion"] = {
+    init: function() {
+        this.appendValueInput("Competency")
+            .setCheck("Competency")
+            .appendField("There is a negative assertion on");
+        this.setOutput(true);
+        this.setPreviousStatement(false);
+        this.setNextStatement(false);
+        this.setColour(190);
     }
 };
 
@@ -86,7 +136,7 @@ Blockly.Blocks["https://dev.api.cassproject.org/api/data/schema.cassproject.org.
         this.setOutput(true, "Competency");
         this.setPreviousStatement(false);
         this.setNextStatement(false);
-        this.setColour(190);
+        this.setColour(300);
         this.setTooltip("buy id");
         this.setHelpUrl("https://example.com");
     }
@@ -99,7 +149,7 @@ Blockly.Blocks["https://dev.api.cassproject.org/api/data/schema.cassproject.org.
         this.setOutput(true, "Competency");
         this.setPreviousStatement(false);
         this.setNextStatement(false);
-        this.setColour(190);
+        this.setColour(300);
         this.setTooltip("buy id");
         this.setHelpUrl("https://example.com");
     }
@@ -270,7 +320,10 @@ export default {
 
 <style scoped>
 #blockly {
-  height: 80vh;
+  height: 40vh;
+}
+#blockly2 {
+  height: 40vh;
 }
 #code {
   position: absolute;
@@ -280,14 +333,5 @@ export default {
   height: 50%;
   margin: 0;
   background-color: beige;
-}
-#blockly1 {
-}
-#blockly2 {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 50%;
-  height: 50%;
 }
 </style>
